@@ -1,6 +1,6 @@
 "use client";
 
-import { Task } from "@/types";
+import { Task } from "@/types/task";
 import { Card, CardContent, CardHeader } from "../ui/card";
 import { Button } from "../ui/button";
 import { Edit, Trash2, Clock, GripVertical } from "lucide-react";

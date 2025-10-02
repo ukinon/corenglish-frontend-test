@@ -1,10 +1,6 @@
 import { $fetch } from "@/lib/fetch";
-import {
-  Task,
-  PaginatedResponse,
-  CreateTaskInput,
-  UpdateTaskInput,
-} from "@/types";
+import { PaginatedResponse } from "@/types";
+import { Task, CreateTaskInput, UpdateTaskInput } from "@/types/task";
 
 interface GetTasksParams {
   query?: string;

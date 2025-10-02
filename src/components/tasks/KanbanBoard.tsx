@@ -1,6 +1,6 @@
 "use client";
 
-import { Task } from "@/types";
+import { Task } from "@/types/task";
 import TaskCard from "./TaskCard";
 import { ScrollArea } from "../ui/scroll-area";
 import {

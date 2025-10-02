@@ -22,7 +22,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Task } from "@/types";
+import { Task } from "@/types/task";
 import { Loader2 } from "lucide-react";
 
 const taskFormSchema = z.object({

@@ -10,7 +10,7 @@ import {
 import KanbanBoard from "@/components/tasks/KanbanBoard";
 import TaskList from "@/components/tasks/TaskList";
 import TasksToolbar from "@/components/tasks/TasksToolbar";
-import { Task } from "@/types";
+import { Task } from "@/types/task";
 import { Loader2 } from "lucide-react";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { toast } from "sonner";

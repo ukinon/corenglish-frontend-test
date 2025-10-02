@@ -1,11 +1,8 @@
 "use client";
 
-import { useState } from "react";
-import { Task } from "@/types";
+import { Task } from "@/types/task";
 import TaskCard from "./TaskCard";
 import Paginator from "../Paginator";
-import { usePaginatedTasksQuery } from "@/hooks/react-queries/useTasksQuery";
-import { Loader2 } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 
 interface TaskListProps {

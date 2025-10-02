@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, FileArchive, Loader2 } from "lucide-react";
-import { UpdateTaskInput } from "@/types";
+import { UpdateTaskInput } from "@/types/task";
 import { toast } from "sonner";
 
 export default function EditTaskPage() {
