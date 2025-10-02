@@ -2,7 +2,7 @@
 
 A modern, responsive task management web application built with Next.js, TypeScript, and React Query. This application provides an intuitive interface for managing tasks with support for both Kanban board and list views.
 
-## 🚀 Features
+## Features
 
 - **Dual View Modes**: Switch between Kanban board (drag-and-drop) and paginated list view
 - **CRUD Operations**: Create, Read, Update, and Delete tasks
@@ -14,12 +14,12 @@ A modern, responsive task management web application built with Next.js, TypeScr
 - **Type Safety**: Full TypeScript support throughout the application
 - **Server-Side Rendering**: Next.js App Router with SSR support
 
-## 📋 Requirements
+## Requirements
 
 - Node.js 18+ or Bun 1.0+
 - Backend API running (see API Configuration below)
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 - **Framework**: Next.js 15 with App Router
 - **Language**: TypeScript
@@ -31,7 +31,7 @@ A modern, responsive task management web application built with Next.js, TypeScr
 - **Notifications**: Sonner
 - **Icons**: Lucide React
 
-## 📦 Installation
+## Installation
 
 1. Clone the repository:
 
@@ -72,7 +72,7 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000) in your browser to see the application.
 
-## 🔧 API Configuration
+## API Configuration
 
 The application requires a backend API with the following endpoints:
 
@@ -88,7 +88,7 @@ Configure the backend API URL in your environment variables:
 NEXT_PUBLIC_API_URL=https://be-corenglish-production.up.railway.app
 ```
 
-## 📱 Features Overview
+## Features Overview
 
 ### Task List View
 
@@ -111,40 +111,8 @@ NEXT_PUBLIC_API_URL=https://be-corenglish-production.up.railway.app
 - **Delete Task**: Remove tasks with confirmation dialog
 - **Status Updates**: Change task status via drag-and-drop or form
 
-## 🏗️ Project Structure
 
-```
-src/
-├── app/                    # Next.js App Router pages
-│   ├── tasks/             # Task-related pages
-│   │   ├── create/        # Create task page
-│   │   ├── edit/[id]/     # Edit task page
-│   │   ├── page.tsx       # Task list page (SSR)
-│   │   └── client-page.tsx # Client-side task list
-│   └── layout.tsx         # Root layout with providers
-├── components/            # React components
-│   ├── tasks/            # Task-specific components
-│   │   ├── KanbanBoard.tsx
-│   │   ├── TaskList.tsx
-│   │   ├── TaskCard.tsx
-│   │   ├── TaskForm.tsx
-│   │   └── TasksToolbar.tsx
-│   └── ui/               # shadcn/ui components
-├── hooks/                # Custom React hooks
-│   └── react-queries/    # React Query hooks
-├── lib/                  # Utility functions
-│   ├── fetch.ts          # API client
-│   └── query-keys.ts     # Query key factory
-├── providers/            # React context providers
-│   └── QueryProvider.tsx # React Query provider
-├── services/             # API services
-│   └── api/
-│       └── task.ts       # Task API service
-└── types/                # TypeScript type definitions
-    └── index.ts
-```
-
-## 🎨 Design Decisions
+## Design Decisions
 
 1. **Dual View Architecture**: Implemented both Kanban and List views to satisfy different user preferences and use cases
 2. **Optimistic Updates**: React Query's optimistic updates provide instant feedback
@@ -153,7 +121,7 @@ src/
 5. **Component Reusability**: Modular components (TaskCard, TaskForm) work in multiple contexts
 6. **Server-Side Rendering**: Initial data fetching on the server improves performance and SEO
 
-## 🚢 Deployment
+## Deployment
 
 ### Deploy to Vercel
 
@@ -163,65 +131,4 @@ src/
    - `NEXT_PUBLIC_API_URL`: Your backend API URL
 4. Deploy!
 
-The application is optimized for Vercel deployment with:
-
-- Automatic builds with Turbopack
-- Edge runtime support
-- Environment variable management
-
-**Live Demo**: [Add your deployed Vercel URL here]
-
-## 🧪 Development
-
-### Build for production:
-
-```bash
-bun run build
-# or
-npm run build
-```
-
-### Run linting:
-
-```bash
-bun run lint
-# or
-npm run lint
-```
-
-## 📝 Environment Variables
-
-| Variable              | Description          | Required |
-| --------------------- | -------------------- | -------- |
-| `NEXT_PUBLIC_API_URL` | Backend API base URL | Yes      |
-
-## 🤝 Contributing
-
-Contributions are welcome! Please follow these steps:
-
-1. Fork the repository
-2. Create a feature branch
-3. Commit your changes
-4. Push to the branch
-5. Open a Pull Request
-
-## 📄 License
-
-This project is part of a frontend development challenge.
-
-## 👥 Author
-
-[Your Name]
-
-## 🙏 Acknowledgments
-
-- [Next.js](https://nextjs.org/)
-- [shadcn/ui](https://ui.shadcn.com/)
-- [TanStack Query](https://tanstack.com/query)
-- [@dnd-kit](https://dndkit.com/)
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+**Live Demo**: [https://corenglish-frontend-test.vercel.app]
