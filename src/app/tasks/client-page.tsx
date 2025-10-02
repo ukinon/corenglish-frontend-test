@@ -10,7 +10,6 @@ import {
 import KanbanBoard from "@/components/tasks/KanbanBoard";
 import TaskList from "@/components/tasks/TaskList";
 import TasksToolbar from "@/components/tasks/TasksToolbar";
-import DeleteTaskDialog from "@/components/tasks/DeleteTaskDialog";
 import { Task } from "@/types";
 import { Loader2 } from "lucide-react";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
@@ -27,32 +26,20 @@ export function TasksClient() {
   const deleteTaskMutation = useDeleteTaskMutation();
   const updateTaskMutation = useUpdateTaskMutation();
 
-  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
-  const [taskToDelete, setTaskToDelete] = useState<Task | null>(null);
-
-  const handleDeleteClick = (taskId: string) => {
+  const handleDeleteClick = async (taskId: string) => {
     const task = data?.data.find((t) => t.id === taskId);
-    if (task) {
-      setTaskToDelete(task);
-      setDeleteDialogOpen(true);
-    }
-  };
+    if (!task) return;
 
-  const handleDeleteConfirm = async () => {
-    if (taskToDelete) {
-      try {
-        await deleteTaskMutation.mutateAsync(taskToDelete.id);
-        toast.success("Task deleted successfully!", {
-          description: `"${taskToDelete.title}" has been removed.`,
-        });
-        setDeleteDialogOpen(false);
-        setTaskToDelete(null);
-      } catch (error) {
-        toast.error("Failed to delete task", {
-          description:
-            error instanceof Error ? error.message : "Please try again later.",
-        });
-      }
+    try {
+      await deleteTaskMutation.mutateAsync(taskId);
+      toast.success("Task deleted successfully!", {
+        description: `"${task.title}" has been removed.`,
+      });
+    } catch (error) {
+      toast.error("Failed to delete task", {
+        description:
+          error instanceof Error ? error.message : "Please try again later.",
+      });
     }
   };
 
@@ -119,7 +106,7 @@ export function TasksClient() {
       <TasksToolbar view={view} setView={setView} />
       <div className="space-y-6">
         {view === "kanban" ? (
-          <ScrollArea className="w-[90vw] ">
+          <ScrollArea className="w-[80vw] ">
             <ScrollBar orientation="horizontal" />
             <div className="flex w-full p-4">
               <KanbanBoard
@@ -138,14 +125,6 @@ export function TasksClient() {
           />
         )}
       </div>
-
-      <DeleteTaskDialog
-        open={deleteDialogOpen}
-        onOpenChange={setDeleteDialogOpen}
-        onConfirm={handleDeleteConfirm}
-        isDeleting={deleteTaskMutation.isPending}
-        taskTitle={taskToDelete?.title}
-      />
     </>
   );
 }

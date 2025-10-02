@@ -47,7 +47,7 @@ export default function EditTaskPage() {
 
   if (isLoading) {
     return (
-      <div className=" flex items-center justify-center h-screen">
+      <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="flex items-center justify-center py-12">
           <Loader2 className="h-8 w-8 animate-spin text-primary" />
         </div>
@@ -57,15 +57,21 @@ export default function EditTaskPage() {
 
   if (error || !task) {
     return (
-      <div className=" flex items-center justify-center h-screen">
-        <div className="flex flex-col items-center justify-center py-12 text-center">
+      <div className="min-h-screen bg-background flex items-center justify-center px-4">
+        <div className="flex flex-col items-center justify-center py-12 text-center max-w-md">
           <FileArchive className="h-12 w-12 text-muted-foreground mb-4" />
-          <h3 className="text-lg font-semibold mb-2">Task not found</h3>
-          <p className="text-sm text-muted-foreground max-w-sm mb-4">
-            The task {"you're"} looking for {"doesn't"} exist or has been
+          <h3 className="text-lg sm:text-xl font-semibold mb-2">
+            Task not found
+          </h3>
+          <p className="text-sm text-muted-foreground mb-6">
+            The task you&apos;re looking for doesn&apos;t exist or has been
             deleted.
           </p>
-          <Button onClick={() => router.push("/tasks")} variant="outline">
+          <Button
+            onClick={() => router.push("/tasks")}
+            variant="outline"
+            className="w-full sm:w-auto"
+          >
             <ArrowLeft className="mr-2 h-4 w-4" />
             Back to Tasks
           </Button>
@@ -75,30 +81,34 @@ export default function EditTaskPage() {
   }
 
   return (
-    <div className="px-6 py-8 max-w-3xl mx-auto space-y-6">
-      <Button
-        variant="ghost"
-        onClick={() => router.push("/tasks")}
-        className="mb-6"
-      >
-        <ArrowLeft className="mr-2 h-4 w-4" />
-        Back to Tasks
-      </Button>
+    <div className="min-h-screen bg-background">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8">
+        <div className="max-w-2xl mx-auto space-y-4 sm:space-y-6">
+          <Button
+            variant="ghost"
+            onClick={() => router.push("/tasks")}
+            className="mb-4 sm:mb-6"
+          >
+            <ArrowLeft className="mr-2 h-4 w-4" />
+            Back to Tasks
+          </Button>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Edit Task</CardTitle>
-          <CardDescription>Update the details of your task</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <TaskForm
-            initialData={task}
-            onSubmit={handleSubmit}
-            isSubmitting={updateTaskMutation.isPending}
-            submitLabel="Update Task"
-          />
-        </CardContent>
-      </Card>
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-xl sm:text-2xl">Edit Task</CardTitle>
+              <CardDescription>Update the details of your task</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <TaskForm
+                initialData={task}
+                onSubmit={handleSubmit}
+                isSubmitting={updateTaskMutation.isPending}
+                submitLabel="Update Task"
+              />
+            </CardContent>
+          </Card>
+        </div>
+      </div>
     </div>
   );
 }

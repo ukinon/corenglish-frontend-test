@@ -8,6 +8,7 @@ import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import Link from "next/link";
 import { Badge } from "../ui/badge";
+import { ConfirmationDialog } from "../ui/confirmation-dialog";
 
 interface TaskCardProps {
   task: Task;
@@ -79,14 +80,23 @@ export default function TaskCard({
                 <Edit className="h-3 w-3 mr-1" />
               </Button>
             </Link>
-            <Button
-              variant="ghost"
-              size="sm"
-              className="flex-1 h-7 text-xs text-red-600 hover:text-red-700 hover:bg-red-50"
-              onClick={() => onDelete?.(task.id)}
-            >
-              <Trash2 className="h-3 w-3 mr-1" />
-            </Button>
+            <ConfirmationDialog
+              trigger={
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="flex-1 h-7 text-xs text-red-600 hover:text-red-700 hover:bg-red-50"
+                >
+                  <Trash2 className="h-3 w-3 mr-1" />
+                </Button>
+              }
+              title="Delete Task"
+              description={`Are you sure you want to delete "${task.title}"? This action cannot be undone.`}
+              confirmText="Delete"
+              cancelText="Cancel"
+              onConfirm={() => onDelete?.(task.id)}
+              variant="destructive"
+            />
           </div>
         </div>
       </CardHeader>

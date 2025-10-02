@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { useCreateTaskMutation } from "@/hooks/react-queries/useTasksQuery";
 import TaskForm from "@/components/tasks/TaskForm";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, ChevronLeft } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import {
   Card,
   CardContent,
@@ -38,30 +38,34 @@ export default function CreateTaskPage() {
   };
 
   return (
-    <div className="px-6 py-8 max-w-3xl mx-auto space-y-6">
-      <Button
-        variant="ghost"
-        onClick={() => router.push("/tasks")}
-        className="mb-6"
-      >
-        <ArrowLeft className="mr-2 h-4 w-4" />
-        Back to Tasks
-      </Button>
-      <Card>
-        <CardHeader>
-          <CardTitle>Create Task</CardTitle>
-          <CardDescription>
-            Fill in the information below to create a new task
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <TaskForm
-            onSubmit={handleSubmit}
-            isSubmitting={createTaskMutation.isPending}
-            submitLabel="Create Task"
-          />
-        </CardContent>
-      </Card>
+    <div className="min-h-screen bg-background">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8">
+        <div className="max-w-2xl mx-auto space-y-4 sm:space-y-6">
+          <Button
+            variant="ghost"
+            onClick={() => router.push("/tasks")}
+            className="mb-4 sm:mb-6"
+          >
+            <ArrowLeft className="mr-2 h-4 w-4" />
+            Back to Tasks
+          </Button>
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-xl sm:text-2xl">Create Task</CardTitle>
+              <CardDescription>
+                Fill in the information below to create a new task
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <TaskForm
+                onSubmit={handleSubmit}
+                isSubmitting={createTaskMutation.isPending}
+                submitLabel="Create Task"
+              />
+            </CardContent>
+          </Card>
+        </div>
+      </div>
     </div>
   );
 }

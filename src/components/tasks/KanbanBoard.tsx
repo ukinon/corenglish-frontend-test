@@ -115,17 +115,17 @@ export default function KanbanBoard({
       onDragStart={handleDragStart}
       onDragEnd={handleDragEnd}
     >
-      <div className="flex gap-4 h-full w-full">
+      <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 h-full w-full overflow-x-auto pb-4">
         {columns.map((column) => {
           const columnTasks = getTasksByStatus(column.id);
 
           return (
             <div
               key={column.id}
-              className="flex-1 flex flex-col min-w-[280px] max-w-[400px]"
+              className="flex-1 flex flex-col min-w-full sm:min-w-[260px] md:min-w-[280px] sm:max-w-[400px]"
             >
-              <div className="mb-3 flex items-center justify-between">
-                <h3 className="font-semibold text-sm text-gray-700">
+              <div className="mb-2 sm:mb-3 flex items-center justify-between">
+                <h3 className="font-semibold text-sm sm:text-base text-gray-700">
                   {column.title}
                 </h3>
                 <span className="text-xs font-medium text-gray-500 bg-gray-100 px-2 py-1 rounded-full">
@@ -139,12 +139,12 @@ export default function KanbanBoard({
               >
                 <DroppableColumn
                   id={column.id}
-                  className={`flex-1 rounded-lg ${column.color} p-3 border border-gray-200 transition-all`}
+                  className={`flex-1 rounded-lg ${column.color} p-2 sm:p-3 border border-gray-200 transition-all`}
                 >
-                  <ScrollArea className="h-[500px]">
-                    <div className="min-h-full pr-4">
+                  <ScrollArea className="h-[400px] sm:h-[500px]">
+                    <div className="min-h-full pr-2 sm:pr-4">
                       {columnTasks.length === 0 ? (
-                        <div className="flex items-center justify-center h-32 text-sm text-gray-400">
+                        <div className="flex items-center justify-center h-32 text-xs sm:text-sm text-gray-400">
                           No tasks
                         </div>
                       ) : (
