@@ -60,7 +60,7 @@ cp .env.example .env.local
 NEXT_PUBLIC_API_URL=https://your-backend-api-url.com
 ```
 
-## 🚀 Getting Started
+## Getting Started
 
 Run the development server:
 
