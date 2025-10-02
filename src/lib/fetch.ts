@@ -96,7 +96,7 @@ export async function $fetch<T>(
   const contentType = response.headers.get("content-type");
   if (contentType?.includes("application/json")) {
     const data = await response.json();
-    return { data: data || data, error: null };
+    return { data: data, error: null };
   }
 
   if (contentType?.includes("text/plain; charset=utf-8")) {
