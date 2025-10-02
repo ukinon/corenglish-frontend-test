@@ -85,7 +85,7 @@ The application requires a backend API with the following endpoints:
 Configure the backend API URL in your environment variables:
 
 ```bash
-NEXT_PUBLIC_API_URL=https://be-corenglish-production.up.railway.app
+NEXT_PUBLIC_API_URL=https://your-backend-api-url.com
 ```
 
 ## Features Overview
