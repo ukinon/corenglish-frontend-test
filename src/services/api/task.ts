@@ -1,5 +1,10 @@
 import { $fetch } from "@/lib/fetch";
-import { Task, PaginatedResponse, CreateTaskInput, UpdateTaskInput } from "@/types";
+import {
+  Task,
+  PaginatedResponse,
+  CreateTaskInput,
+  UpdateTaskInput,
+} from "@/types";
 
 interface GetTasksParams {
   query?: string;
@@ -11,14 +16,16 @@ interface GetTasksParams {
 }
 
 const taskService = {
-  getTasks: async (params: GetTasksParams = {}): Promise<PaginatedResponse<Task>> => {
+  getTasks: async (
+    params: GetTasksParams = {}
+  ): Promise<PaginatedResponse<Task>> => {
     const { filters = {}, limit = 10, page = 1 } = params;
 
     const queryParams = new URLSearchParams();
-    
+
     if (page) queryParams.set("page", String(page));
     if (limit) queryParams.set("limit", String(limit));
-    
+
     const statusFilter = filters["filter[status]"] as string;
     if (statusFilter) queryParams.set("status", statusFilter);
 

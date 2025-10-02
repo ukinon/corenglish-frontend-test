@@ -9,7 +9,9 @@ export function useTasksQuery() {
 
   const queryString = new URLSearchParams({
     ...(search && { search }),
-    ...(filters["filter[status]"] && { "filter[status]": String(filters["filter[status]"]) }),
+    ...(filters["filter[status]"] && {
+      "filter[status]": String(filters["filter[status]"]),
+    }),
     ...(sort && { sort }),
     ...(order && { order }),
     ...(limit && { limit: String(limit) }),
@@ -18,7 +20,15 @@ export function useTasksQuery() {
 
   return useQuery({
     queryKey: TASKS_QUERY_KEYS.list(queryString),
-    queryFn: () => taskService.getTasks({ query: queryString, filters, sort, order, limit, page }),
+    queryFn: () =>
+      taskService.getTasks({
+        query: queryString,
+        filters,
+        sort,
+        order,
+        limit,
+        page,
+      }),
     staleTime: 10 * 1000,
   });
 }
@@ -50,7 +60,9 @@ export function useUpdateTaskMutation() {
       taskService.updateTask(id, input),
     onSuccess: (_, variables) => {
       queryClient.invalidateQueries({ queryKey: TASKS_QUERY_KEYS.lists() });
-      queryClient.invalidateQueries({ queryKey: TASKS_QUERY_KEYS.detail(variables.id) });
+      queryClient.invalidateQueries({
+        queryKey: TASKS_QUERY_KEYS.detail(variables.id),
+      });
     },
   });
 }
