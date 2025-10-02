@@ -5,17 +5,13 @@ import { CreateTaskInput, UpdateTaskInput } from "@/types";
 import { useSearchQuery } from "../useSearchQuery";
 
 export function useTasksQuery() {
-  const { search, filters, sort, order, limit, page } = useSearchQuery();
+  const { search, filters } = useSearchQuery();
 
   const queryString = new URLSearchParams({
     ...(search && { search }),
-    ...(filters["filter[status]"] && {
-      "filter[status]": String(filters["filter[status]"]),
-    }),
-    ...(sort && { sort }),
-    ...(order && { order }),
-    ...(limit && { limit: String(limit) }),
-    ...(page && { page: String(page) }),
+    ...filters,
+    limit: "100",
+    page: "1",
   }).toString();
 
   return useQuery({
@@ -23,9 +19,28 @@ export function useTasksQuery() {
     queryFn: () =>
       taskService.getTasks({
         query: queryString,
-        filters,
-        sort,
-        order,
+        limit: 100,
+        page: 1,
+      }),
+    staleTime: 10 * 1000,
+  });
+}
+
+export function usePaginatedTasksQuery() {
+  const { search, filters, limit, page } = useSearchQuery();
+
+  const queryString = new URLSearchParams({
+    ...(search && { search }),
+    ...filters,
+    limit: limit.toString(),
+    page: page.toString(),
+  }).toString();
+
+  return useQuery({
+    queryKey: TASKS_QUERY_KEYS.list(queryString),
+    queryFn: () =>
+      taskService.getTasks({
+        query: queryString,
         limit,
         page,
       }),

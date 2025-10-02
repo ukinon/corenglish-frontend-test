@@ -27,11 +27,11 @@ export default async function TasksPage({
       const params = new URLSearchParams(queryString);
       const page = params.get("page") ? parseInt(params.get("page")!) : 1;
       const limit = params.get("limit") ? parseInt(params.get("limit")!) : 10;
-      const status = params.get("filter[status]") || "";
+      const status = params.get("status") || "";
 
       const filters: Record<string, string> = {};
       if (status) {
-        filters["filter[status]"] = status;
+        filters["status"] = status;
       }
 
       return taskService.getTasks({
@@ -46,10 +46,15 @@ export default async function TasksPage({
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
       <div className="px-6 py-8 space-y-6 max-w-7xl mx-auto">
-        <div className="space-y-2">
-          <h1 className="text-3xl font-bold tracking-tight">Tasks</h1>
-          <p className="text-muted-foreground">Manage your tasks efficiently</p>
+        <div className="space-y-2 flex justify-between items-center">
+          <div className="flex flex-col gap-2">
+            <h1 className="text-3xl font-bold tracking-tight">Tasks</h1>
+            <p className="text-muted-foreground">
+              Manage your tasks efficiently
+            </p>
+          </div>
         </div>
+
         <TasksClient />
       </div>
     </HydrationBoundary>

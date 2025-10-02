@@ -47,7 +47,7 @@ export default function FilterInput({
     if (
       !value &&
       defaultValue &&
-      !filters[`filter[${paramName}]`] &&
+      !filters[`${paramName}`] &&
       selectedValue !== defaultValue
     ) {
       handleValueChange(defaultValue);
@@ -66,16 +66,17 @@ export default function FilterInput({
     const orderParam = searchParams.get("order");
 
     const existingFilters: Record<string, string> = {};
-    Object.entries(filters).forEach(([key, val]) => {
-      if (key !== `filter[${paramName}]`) {
-        existingFilters[key] = String(val);
+    searchParams.forEach((value, key) => {
+      if (
+        !["page", "search", "sort", "order"].includes(key) &&
+        key !== paramName
+      ) {
+        existingFilters[key] = value;
       }
     });
 
     if (newValue) {
-      existingFilters[`filter[${paramName}]`] = newValue;
-    } else {
-      delete existingFilters[`filter[${paramName}]`];
+      existingFilters[paramName] = newValue;
     }
 
     handlePageChange({
@@ -101,7 +102,7 @@ export default function FilterInput({
           : []),
         ...options,
       ]}
-      value={selectedValue || (filters[`filter[${paramName}]`] as string)}
+      value={selectedValue || searchParams.get(paramName) || ""}
       onValueChange={handleValueChange}
       placeholder={placeholder}
       searchPlaceholder={searchPlaceholder}

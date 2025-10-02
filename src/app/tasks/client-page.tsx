@@ -1,19 +1,31 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import {
   useTasksQuery,
   useDeleteTaskMutation,
+  useUpdateTaskMutation,
+  usePaginatedTasksQuery,
 } from "@/hooks/react-queries/useTasksQuery";
+import KanbanBoard from "@/components/tasks/KanbanBoard";
 import TaskList from "@/components/tasks/TaskList";
 import TasksToolbar from "@/components/tasks/TasksToolbar";
-import Paginator from "@/components/Paginator";
 import DeleteTaskDialog from "@/components/tasks/DeleteTaskDialog";
 import { Task } from "@/types";
+import { Loader2 } from "lucide-react";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+import { toast } from "sonner";
 
 export function TasksClient() {
-  const { data, isLoading, error } = useTasksQuery();
+  const [view, setView] = useState<"kanban" | "list">("list");
+
+  const activeQuery = useMemo(() => {
+    return view === "kanban" ? useTasksQuery : usePaginatedTasksQuery;
+  }, [view]);
+
+  const { data, isLoading, error } = activeQuery();
   const deleteTaskMutation = useDeleteTaskMutation();
+  const updateTaskMutation = useUpdateTaskMutation();
 
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [taskToDelete, setTaskToDelete] = useState<Task | null>(null);
@@ -28,9 +40,41 @@ export function TasksClient() {
 
   const handleDeleteConfirm = async () => {
     if (taskToDelete) {
-      await deleteTaskMutation.mutateAsync(taskToDelete.id);
-      setDeleteDialogOpen(false);
-      setTaskToDelete(null);
+      try {
+        await deleteTaskMutation.mutateAsync(taskToDelete.id);
+        toast.success("Task deleted successfully!", {
+          description: `"${taskToDelete.title}" has been removed.`,
+        });
+        setDeleteDialogOpen(false);
+        setTaskToDelete(null);
+      } catch (error) {
+        toast.error("Failed to delete task", {
+          description:
+            error instanceof Error ? error.message : "Please try again later.",
+        });
+      }
+    }
+  };
+
+  const handleStatusChange = async (
+    taskId: string,
+    newStatus: Task["status"]
+  ) => {
+    try {
+      await updateTaskMutation.mutateAsync({
+        id: taskId,
+        input: { status: newStatus },
+      });
+      toast.success("Task status updated!", {
+        description: `Status changed to ${newStatus
+          ?.replace("_", " ")
+          .toLowerCase()}.`,
+      });
+    } catch (error) {
+      toast.error("Failed to update task status", {
+        description:
+          error instanceof Error ? error.message : "Please try again later.",
+      });
     }
   };
 
@@ -62,21 +106,35 @@ export function TasksClient() {
     );
   }
 
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center py-12">
+        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+      </div>
+    );
+  }
+
   return (
     <>
+      <TasksToolbar view={view} setView={setView} />
       <div className="space-y-6">
-        <TasksToolbar />
-        <TaskList
-          tasks={data?.data || []}
-          isLoading={isLoading}
-          onDelete={handleDeleteClick}
-        />
-        {data && data.data?.length > 0 && (
-          <Paginator
-            currentPage={data.page}
-            totalPages={data.totalPages}
-            total={data.total}
-            data={data.data}
+        {view === "kanban" ? (
+          <ScrollArea className="w-[90vw] ">
+            <ScrollBar orientation="horizontal" />
+            <div className="flex w-full p-4">
+              <KanbanBoard
+                tasks={data?.data || []}
+                onDelete={handleDeleteClick}
+                onStatusChange={handleStatusChange}
+              />
+            </div>
+          </ScrollArea>
+        ) : (
+          <TaskList
+            tasks={data?.data || []}
+            totalPages={data?.totalPages || 1}
+            total={data?.total || 0}
+            onDelete={handleDeleteClick}
           />
         )}
       </div>

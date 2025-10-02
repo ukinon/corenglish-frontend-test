@@ -1,7 +1,7 @@
 import React from "react";
 import { Button } from "./ui/button";
 import { useSearchQuery } from "@/hooks/useSearchQuery";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 interface PaginatorProps {
@@ -19,6 +19,29 @@ export default function Paginator({
 }: PaginatorProps) {
   const { handlePageChange } = useSearchQuery();
   const path = usePathname();
+  const searchParams = useSearchParams();
+
+  const handlePageNavigation = (page: number) => {
+    const searchParam = searchParams.get("search");
+    const sortParam = searchParams.get("sort");
+    const orderParam = searchParams.get("order");
+
+    const existingFilters: Record<string, string> = {};
+    searchParams.forEach((value, key) => {
+      if (!["page", "search", "sort", "order"].includes(key)) {
+        existingFilters[key] = value;
+      }
+    });
+
+    handlePageChange({
+      page,
+      path,
+      search: searchParam || undefined,
+      filters: existingFilters,
+      sort: sortParam || undefined,
+      order: (orderParam as "asc" | "desc") || undefined,
+    });
+  };
 
   const getPageNumbers = () => {
     const pages = [];
@@ -66,12 +89,7 @@ export default function Paginator({
           variant="outline"
           size="icon"
           className="h-8 w-8"
-          onClick={() =>
-            handlePageChange({
-              page: currentPage - 1,
-              path,
-            })
-          }
+          onClick={() => handlePageNavigation(currentPage - 1)}
           disabled={currentPage <= 1}
         >
           <ChevronLeft className="h-4 w-4" />
@@ -88,12 +106,7 @@ export default function Paginator({
               variant={currentPage === page ? "default" : "outline"}
               size="icon"
               className="h-8 w-8"
-              onClick={() =>
-                handlePageChange({
-                  page: page as number,
-                  path,
-                })
-              }
+              onClick={() => handlePageNavigation(page as number)}
             >
               {page}
             </Button>
@@ -104,12 +117,7 @@ export default function Paginator({
           variant="outline"
           size="icon"
           className="h-8 w-8"
-          onClick={() =>
-            handlePageChange({
-              page: currentPage + 1,
-              path,
-            })
-          }
+          onClick={() => handlePageNavigation(currentPage + 1)}
           disabled={currentPage >= totalPages}
         >
           <ChevronRight className="h-4 w-4" />

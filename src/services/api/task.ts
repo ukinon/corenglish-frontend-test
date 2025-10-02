@@ -19,19 +19,9 @@ const taskService = {
   getTasks: async (
     params: GetTasksParams = {}
   ): Promise<PaginatedResponse<Task>> => {
-    const { filters = {}, limit = 10, page = 1 } = params;
-
-    const queryParams = new URLSearchParams();
-
-    if (page) queryParams.set("page", String(page));
-    if (limit) queryParams.set("limit", String(limit));
-
-    const statusFilter = filters["filter[status]"] as string;
-    if (statusFilter) queryParams.set("status", statusFilter);
-
     const { data, error } = await $fetch<PaginatedResponse<Task>>("/tasks", {
       method: "GET",
-      query: queryParams.toString(),
+      query: params.query,
     });
 
     if (error) throw error;

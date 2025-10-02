@@ -15,8 +15,8 @@ export function useSearchQuery() {
     const sort = searchParams.get("sort") || "";
     const order = searchParams.get("order") || "";
     const limit = searchParams.get("limit")
-      ? parseInt(searchParams.get("limit") || "10", 10)
-      : 10;
+      ? parseInt(searchParams.get("limit") || "12", 12)
+      : 12;
 
     const filters: Record<string, string | number | boolean> = {};
     searchParams.forEach((value, key) => {
