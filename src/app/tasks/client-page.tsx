@@ -106,7 +106,7 @@ export function TasksClient() {
       <TasksToolbar view={view} setView={setView} />
       <div className="space-y-6">
         {view === "kanban" ? (
-          <ScrollArea className="w-[80vw] ">
+          <ScrollArea className="w-[90vw] md:w-[80vw] ">
             <ScrollBar orientation="horizontal" />
             <div className="flex w-full p-4">
               <KanbanBoard

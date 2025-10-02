@@ -54,13 +54,13 @@ export function Combobox({
       {open && (
         <>
           <div className="fixed inset-0 z-40" onClick={() => setOpen(false)} />
-          <div className="absolute z-50 mt-1 w-full rounded-md border bg-popover p-1 text-popover-foreground shadow-md">
+          <div className="absolute z-50 mt-1  rounded-md border bg-popover p-1 text-popover-foreground shadow-md w-fit">
             <input
               type="text"
               placeholder="Search..."
               value={searchValue}
               onChange={(e) => setSearchValue(e.target.value)}
-              className="w-full rounded-sm border-0 bg-transparent px-3 py-2 text-sm outline-none placeholder:text-muted-foreground"
+              className="w-48 rounded-sm border-0 bg-transparent px-3 py-2 text-sm outline-none placeholder:text-muted-foreground"
             />
             <div className="max-h-[300px] overflow-y-auto">
               {filteredItems.length === 0 ? (
@@ -85,7 +85,7 @@ export function Combobox({
                         value === item.value ? "opacity-100" : "opacity-0"
                       )}
                     />
-                    {item.label}
+                    <span className="w-full"> {item.label}</span>
                   </div>
                 ))
               )}
